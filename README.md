@@ -6,7 +6,7 @@ Le jeu de Hex est un jeu de plateau se jouant à 2 tout par tour. L'objectif pou
 Les versions 7x7 et 11x11 sont disponible en version graphique.
 3 inteligences artificielles sont opérationnelles : random, mc, mcts => à modifier dans le fichier main.py.
 
-![](https://upload.wikimedia.org/wikipedia/commons/3/38/Hex-board-11x11-%282%29.jpg)
+:-:![](https://upload.wikimedia.org/wikipedia/commons/3/38/Hex-board-11x11-%282%29.jpg)
 
 ## Setup
 
