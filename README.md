@@ -18,4 +18,4 @@ Il est possible de jouer contre une IA en modifiant le script *main.py*, 2 versi
 
 Pour lancer une partie, saisir dans le terminal : *./main.py joueur1 joueur2 taille_du_plateau*
 
-Avec 0 pour un joueur humain et 1 pour une IA.
+Avec 0 pour un joueur humain et 1 pour une IA. Les tailles de plateau dispoible sont 7x7 et 11x11.
