@@ -9,7 +9,9 @@ Hex est un jeu de société pour deux personnes dans lequel les joueurs essaient
 Lorsque c'est votre tour, cliquez sur une cellule vide pour la marquer de votre couleur. Essayez de créer un chemin reliant vos deux côtés du plateau.
 
 Il est possible de jouer contre une IA en modifiant le script *main.py*, 2 version sont disponibles : 
+- random (test de rapidité)
 - mc
+- mc_ucb1
 - mcts
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Hex_board_11x11.svg/800px-Hex_board_11x11.svg.png)
