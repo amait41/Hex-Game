@@ -1,7 +1,6 @@
 import pygame
 from misc import background, screen
-from AI.Algorithm_AI import run_random, run_mc, run_mcts
-
+from AI.Algorithm_AI import *
 
 class Player:
 
@@ -15,38 +14,34 @@ class Human(Player):
     def __init__(self, color):
         super().__init__(color)
    
-
     def plays(self, board):
-        have_play = False
         pos = pygame.mouse.get_pos()
-
         if background.get_at(pos) == (223, 223, 223, 255):
-
-            hex_vertices = board.update(pos, self.color)
-
-            if hex_vertices != None:
-                color = 'red' if self.color==1 else 'blue'
-                pygame.draw.polygon(screen, color, hex_vertices)
-                return True
+            return board.update(pos, self.color)
 
                 
 class AI(Player):
 
-    def __init__(self, color, algorithm):
+    def __init__(self, color, algorithm,explorationConstant=None):
         super().__init__(color)
         algorithms = {
-                    'random':run_random, # random
-                    'mc':run_mc,         # simple monte-carlo
-                    'mcts':run_mcts      # monte-carlo tree search
+                    'random':run_random,    # random
+                    'mc0':run_mc0,          # simple monte-carlo v0
+                    'mc':run_mc,            # simple monte-carlo v1
+                    'mc_ucb1':run_mc_ucb1,  # mc + ucb1
+                    'mcts':run_mcts         # monte-carlo tree search
                     }
+        self.algorithm_name = algorithm
         self.algorithm = algorithms[algorithm]
-
+        self.explorationConstant = explorationConstant
 
     def plays(self, board):
-        pos = self.algorithm(board, self.color)
+        if self.algorithm in ['mc_ucb1','mcts']:
+            pos = self.algorithm(board, self.color, self.explorationConstant)
+        else:
+            pos = self.algorithm(board, self.color)
         tile_center = board.tiles_centers[board.coord_to_action(pos[0], pos[1])]
-        hex_vertices = board.update(tile_center, self.color, True)
-        if hex_vertices != None:
-            color = 'red' if self.color==1 else 'blue'
-            pygame.draw.polygon(screen, color, hex_vertices)
-            return True
+        return board.update(tile_center, self.color, True)
+    
+    def __str__(self):
+        return f"{self.color},{self.name},{self.algorithm_name}"

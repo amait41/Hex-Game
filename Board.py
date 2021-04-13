@@ -1,12 +1,12 @@
-import string
+import pygame
+from misc import screen
 
 class Board:
 
-    def __init__(self, board_size, background, screen):
+    def __init__(self, board_size):
         self.size = int(board_size)
         self.board = [[0 for i in range(self.size)] for j in range(self.size)]
-        self.actions = list(range(self.size**2))
-
+        self.actions = [(i,j) for i in range(self.size) for j in range(self.size)]
         # init connex componant list
         self.east_component = set([(i,self.size) for i in range(self.size)])
         self.west_component = set([(i,-1) for i in range(self.size)])
@@ -31,7 +31,7 @@ class Board:
 
 
 ## Convert point and coord for display ##############################
-
+    # => influe sur tile_center dans Player.py
     def coord_to_action(self, i, j):
         """ Convert board coord (i,j) to hexagon index in board actions. """
         return i * self.size + j
@@ -86,7 +86,7 @@ class Board:
         hex_vertices = [(x+l/2,y-h/4),(x+l/2,y+h/4),(x,y+h/2),(x-l/2,y+h/4),(x-l/2,y-h/4),(x,y-h/2)]
         return hex_vertices, min_pos
 
-###############################################################
+###################################################################
 
 
 ## Fonction to create edge between tiles of the same color ########
@@ -100,10 +100,10 @@ class Board:
                     neighbors.append((i+a,j+b))
         return neighbors
 
-###############################################################
+##################################################################
 
 
-## Update board state after put a stone ######################
+## Update board state after put a stone ##########################
 
     def update(self, pos, color, center=False):
         """ Update the board after an action. """
@@ -114,9 +114,7 @@ class Board:
         
         if self.board[i][j] == 0:
             self.board[i][j] = color
-            action = self.coord_to_action(i,j)
-            action_index = self.actions.index(action)
-            self.actions.pop(action_index)
+            self.actions.remove((i,j))
             
             neighbors = self.get_neighbors(i,j)
 
@@ -143,8 +141,12 @@ class Board:
                             #in case we are considering an already deleted set
                             except IndexError:
                                 pass
-            return hex_vertices
-        
+            #update dsplay
+            if hex_vertices != None:
+                color = 'red' if color==1 else 'blue'
+                pygame.draw.polygon(screen, color, hex_vertices)
+                return True
+                
         else:
             return None
 
@@ -157,7 +159,7 @@ class Board:
         """ Returns a string containing the current state of the board. """
         schema = ""
         headers = "     "
-        alphabet = list(string.ascii_uppercase) 
+        alphabet = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") 
         alphabet.reverse()
 
         red_line_top = headers + "\033[31m--\033[0m" * (len(self.board))

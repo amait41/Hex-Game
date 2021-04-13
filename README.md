@@ -24,6 +24,6 @@ pygame
 ### Lancement d'une patie
 Pour lancer une partie, saisir dans le terminal : 
 
-*./main.py joueur_1 joueur_2 taille_du_plateau*
+*./main.py joueur_1 joueur_2 taille_du_plateau affichage
 
-Avec 0 pour un joueur humain et 1 pour une IA. Les tailles de plateau dispoible sont 7x7 et 11x11.
+Avec 0 pour un joueur humain et 1 pour une IA. Les tailles de plateau dispoible sont 7 et 11. Mettre 1 pour faire jouer un humain contre un autre joueur et 0 pour faire jouer deux IA entre elles.

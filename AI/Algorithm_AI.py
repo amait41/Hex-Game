@@ -1,42 +1,57 @@
-from random import choice
-from AI.mc.best_action import best_action
-
-#from AI.mcts.Game_mc import *
-#from AI.mcts.mc import *
-
-from AI.mcts.Game_mcts import *
-from AI.mcts.mcts import *
-
+import random
+from math import sqrt
+from AI.Hex import Hex
+from AI.mc0 import mc0
+from AI.mc import mc
+from AI.mc_ucb1 import mc_ucb1
+from AI.mcts import mcts
 from copy import deepcopy
+from time import time
 
-def run_random(board, color):
+n = 100
+
+def run_random(board, color, explorationConstant=None):
     """
     Pick a random legal action.
     """
-    return board.action_to_coord(choice(board.actions))
+    return random.choice(board.actions)
+
+def run_mc0(board, color, explorationConstant=None):
+    action = mc0(board, n, color, needDetails = False)
+    return action
 
 
-def run_mc(board, color):
+def run_mc(board, color, explorationConstant=None):
     """
-    Plays n games with random policy for each legal actions.
+    Plays games with iteration or time limit.
+    The same number of games is played for each action.
+    Random policy is use.
     Return the action with the best win rate.
     """
-    """
     initialState = Hex(color, deepcopy(board))
-    searcher = mc(iterationLimit=1000)
-    action = searcher.search(initialState=initialState)
-    return (action.x, action.y)
+    searcher = mc(timeLimit=None, iterationLimit=n)
+    action = searcher.search(initialState=initialState, needDetails=False)
+    return action
+
+def run_mc_ucb1(board, color, explorationConstant=sqrt(2)):
     """
-    n = 10
-    action = best_action(board, n, color)
-    return board.action_to_coord(action)
+    Plays games with iteration or time limit.
+    The actions are selected with UCB1 criterion.
+    Random policy is use.
+    Return the action with the best win rate.
+    """
+    initialState = Hex(color, board)
 
+    searcher = mc_ucb1(timeLimit=None, iterationLimit=n, explorationConstant=explorationConstant)
+    action = searcher.search(initialState=initialState, needDetails=False)
+    return action
 
-def run_mcts(board, color):
+def run_mcts(board, color, explorationConstant=sqrt(2)):
     """
     Uses mcts method with time (ms) or iteration limit.
     """
     initialState = Hex(color, deepcopy(board))
-    searcher = mcts(iterationLimit=100)
+
+    searcher = mcts(timeLimit=None, iterationLimit=n, explorationConstant=explorationConstant)
     action = searcher.search(initialState=initialState, needDetails=False)
-    return (action.x, action.y)
+    return action
