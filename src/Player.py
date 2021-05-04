@@ -2,7 +2,7 @@ from misc import display
 if display:
     import pygame
     from misc import background, screen
-from AI.Algorithm_AI import *
+from AI.dispatcher import *
 
 
 class Player:
@@ -25,26 +25,25 @@ class Human(Player):
                 
 class AI(Player):
 
-    def __init__(self, color, algorithm, explorationConstant=sqrt(2)):
+    def __init__(self, color, algorithm):
         super().__init__(color)
         algorithms = {
-                    'random':rand,    # random
-                    'mc':mc,            # simple monte-carlo v1
-                    'mc_ucb1':mc_ucb1,  # mc + ucb1
-                    'mcts':mcts         # monte-carlo tree search
+                    'random': random,    # random
+                    'mc': mc,            # Monte_Carlo
+                    'mc_ucb1': mc_ucb1,  # Monte-Carlo + UUpperConfidenceBound 1
+                    'uct': uct,          # Upper Confidence bounds for Trees
+                    'uct_wm': uct_wm,    # Upper Confidence bounds for Trees With Memory
                     }
         self.algorithm_name = algorithm
         self.algorithm = algorithms[algorithm]
-        self.explorationConstant = explorationConstant
+        self.explorationConstant = 0.13
+        self.tree = None
 
     def plays(self, board):
-        '''
-        if self.algorithm in ['mc_ucb1','mcts']:
-            (i,j) = self.algorithm(board, self.color, self.explorationConstant)
+        if self.algorithm_name == 'uct_wm':
+            self.tree, (i,j) = self.algorithm(board, self.color, self.explorationConstant, self.tree)
         else:
-            (i,j) = self.algorithm(board, self.color)
-        '''
-        (i,j) = self.algorithm(board, self.color, self.explorationConstant)
+            (i,j) = self.algorithm(board, self.color, self.explorationConstant)
         tile_center = board.tiles_centers[board.coord_to_index(i, j)]
         return board.update(tile_center, self.color, True)
     

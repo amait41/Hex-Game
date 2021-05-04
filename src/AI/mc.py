@@ -31,8 +31,7 @@ class treeNode():
 
 class MC():
 
-    def __init__(self, timeLimit=None, iterationLimit=None, explorationConstant=None,
-                 rolloutPolicy=randomPolicy):
+    def __init__(self, timeLimit=None, iterationLimit=None, rolloutPolicy=randomPolicy):
         if timeLimit != None:
             if iterationLimit != None:
                 raise ValueError("Cannot have both a time limit and an iteration limit")
@@ -47,7 +46,6 @@ class MC():
                 raise ValueError("Iteration limit must be greater than one")
             self.searchLimit = iterationLimit
             self.limitType = 'iterations'
-        self.explorationConstant = explorationConstant
         self.rollout = rolloutPolicy
 
 
@@ -80,6 +78,7 @@ class MC():
             for node, info in self.root.children.items():
                 print(node,':',info.totalReward, info.numVisits, round(info.totalReward/info.numVisits,2))
             print(action)
+            return action
             
         return action
 

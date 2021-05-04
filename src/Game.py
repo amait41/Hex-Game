@@ -56,13 +56,13 @@ class Game:
                         pygame.mouse.get_pressed(num_buttons=3)==(True,False,False):
                         if currplayer.plays(self.board):
                             self.turn = 1 - self.turn
-                            print(self.board)
+                            #print(self.board)
                 
                 # current computer player plays
                 elif currplayer.__class__.__name__ == 'AI':
                     if currplayer.plays(self.board):
                         self.turn = 1 - self.turn
-                        print(self.board)
+                        #print(self.board)
 
                 # did someone win ?
                 winner = self.check_win(currplayer)
