@@ -17,20 +17,20 @@ Il est possible de jouer contre une IA, dont plusieurs implémentations sont dis
 ## Setup
 
 ```bash
-$ # Get the code
-$ git clone https://github.com/Maxime-LP/Hex-Game/main
-$ cd Hex-Game
-$
-$ # Virtualenv modules installation (Unix based systems)
-$ virtualenv env
-$ source env/bin/activate
-$
-$ # Virtualenv modules installation (Windows based systems)
-$ # virtualenv env
-$ # .\env\Scripts\activate
-$
-$ # Install modules
-$ pip3 install -r requirements.txt
+# Get the code
+git clone https://github.com/Maxime-LP/Hex-Game/main
+cd Hex-Game
+
+# Virtualenv modules installation (Unix based systems)
+virtualenv env
+source env/bin/activate
+
+# Virtualenv modules installation (Windows based systems)
+# virtualenv env
+# .\env\Scripts\activate
+
+# Install modules
+pip3 install -r requirements.txt
 ```
 
 ## Start a game
